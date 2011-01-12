@@ -1,0 +1,45 @@
+= DeadViewCatcher
+
+DeadViewCatcher is a gem for Ruby on Rails giving you an easy way to find which views you are not using anymore in your app.
+This might be really useful for big Rails app maintained by a big team.
+
+Works with Rails 2.3 (Will be tested against Rails3 soon)
+
+== Usage
+
+Simply load the gem in your rails app with your favorite way.
+
+Then instantiate DeadViewCatcher at boot:
+
+  DeadViewCatcher.watch!
+
+Then at any time, you just need to send a TRAP signal to your rails instance in order to generate a dump of your views status:
+
+  kill -s TRAP pid_of_your_instance
+  
+If you want to generate a consolidated dump gathering data from all your instances, just choose one instance and send it the USR2 signal:
+
+ kill -s URG pid_of_one_of_your_instances
+
+== Options
+
+The watch! method accepts some options :
+
+  # The correct grep string in order to select instances of your app for consolidated dumps
+  # This option is mandatory if you plan to use the consolidated dump feature
+  DeadViewCatcher.watch!(:grep => 'unicorn_rails worker')
+  
+  # Change the default signal
+  DeadViewCatcher.watch!(:signal => 'USR1')
+
+  # Change the consolidated default signal
+  DeadViewCatcher.watch!(:all_instances_signal => 'USR2')
+
+  # Change the default file for the dump
+  DeadViewCatcher.watch!(:file => '/tmp/somewhere.txt')
+
+
+When customizing the signal you want to catch, be careful when picking one, as your server might already catch some (like Unicorn does for USR1 and USR2).
+
+
+Copyright (c) 2011 Guillaume Luccisano - g-mai|: guillaume.luccisano, released under the MIT license

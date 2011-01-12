@@ -1,0 +1,3 @@
+0.1 (January 12, 2011)
+
+* Initial release: tested against mongrel and unicorn on nix system

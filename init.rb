@@ -1,0 +1,1 @@
+require 'dead_view_catcher'
